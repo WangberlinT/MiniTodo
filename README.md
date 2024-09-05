@@ -7,6 +7,15 @@
 - **Performance**: Key optimizations for LazyColumn loading and pagination for large data sets.
 - **Testing**: Unit tests for SQLite database operations. Achieve 100% method coverage for the `TodoDatabaseHelper` class (cover all methods).
 
+Testing: 
+
+![WX20240905-171347@2x.png](WX20240905-171347%402x.png)
+
+Video:
+
+[Screen Recording 2024-09-05 at 6.37.14 PM.mov](Screen%20Recording%202024-09-05%20at%206.37.14%E2%80%AFPM.mov)
+
+
 # How to run
 - **Build and run**: Clone the repository and open it in Android Studio.
 - **APK**: [MiniTodo.apk](MiniTodo.apk)
