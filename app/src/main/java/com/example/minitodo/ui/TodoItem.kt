@@ -34,6 +34,7 @@ import java.time.format.DateTimeFormatter
 fun PreviewTodoCard() {
     MiniTodoTheme {
         TodoItemUi(
+            modifier = Modifier,
             TodoItem(1, "finish Mini Project", LocalDateTime.now())
         )
     }
@@ -41,11 +42,12 @@ fun PreviewTodoCard() {
 
 @Composable
 fun TodoItemUi(
+    modifier: Modifier,
     item: TodoItem,
     onDelete: (TodoItem) -> Unit = {}
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
             .background(Color.LightGray)
