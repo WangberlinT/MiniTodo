@@ -43,15 +43,10 @@ fun TodoScreen(
     }
     val items by viewModel.items.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
+    val hasMoreItems by viewModel.hasMoreItems.collectAsState()
 
     // Main content of the screen
     Box(modifier = modifier) {
-
-        if (isLoading) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
-            )
-        }
 
         Column(
             modifier = Modifier
@@ -60,7 +55,14 @@ fun TodoScreen(
                 .align(Alignment.TopCenter)
         ) {
             TodoList(
-                items = items
+                items = items,
+                hasMoreData = hasMoreItems,
+                onReachTheBottom = {
+                    viewModel.loadMoreItems()
+                },
+                onDeleteItem = {
+                    viewModel.deleteItemById(it.id)
+                }
             )
 
         }
@@ -79,11 +81,15 @@ fun TodoScreen(
                 Text(text = "Add")
             }
 
-            Button(onClick = {}) {
+            Button(onClick = {
+                viewModel.insert2000Items()
+            }) {
                 Text(text = "Insert 2000 items")
             }
 
-            Button(onClick = {}) {
+            Button(onClick = {
+                viewModel.deleteAll()
+            }) {
                 Text(text = "Clear all")
             }
         }
@@ -107,12 +113,19 @@ fun TodoScreen(
                         hideBottomSheet()
                     },
                     onAddTodo = {
+                        viewModel.addItem(it)
                         hideBottomSheet()
-                        Log.d("TodoScreen", it)
                     }
                 )
             }
         }
+
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
+        }
+
     }
 
 }

@@ -86,6 +86,23 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, "TodoData
         db.insert(TABLE_NAME, null, contentValues)
     }
 
+    fun insertItems(items: List<TodoItemInfo>) {
+        val db = writableDatabase
+        db.beginTransaction()
+        try {
+            for (item in items) {
+                val values = ContentValues().apply {
+                    put(COLUMN_TITLE, item.title)
+                    put(COLUMN_TIMESTAMP, item.timestamp.toString())
+                }
+                db.insert(TABLE_NAME, null, values)
+            }
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
+        }
+    }
+
     fun deleteItem(id: Int) : Int {
         val db = writableDatabase
         return db.delete(TABLE_NAME, "$COLUMN_ID = ?", arrayOf(id.toString()))

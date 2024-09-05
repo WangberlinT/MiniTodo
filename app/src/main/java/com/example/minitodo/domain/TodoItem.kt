@@ -1,4 +1,4 @@
-package com.example.minitodo.model
+package com.example.minitodo.domain
 
 import java.time.LocalDateTime
 

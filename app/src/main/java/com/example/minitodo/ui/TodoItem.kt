@@ -24,7 +24,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.minitodo.model.TodoItem
+import com.example.minitodo.domain.TodoItem
 import com.example.minitodo.ui.theme.MiniTodoTheme
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
