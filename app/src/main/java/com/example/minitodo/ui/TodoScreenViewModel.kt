@@ -9,6 +9,7 @@ import androidx.savedstate.SavedStateRegistryOwner
 import com.example.minitodo.domain.Insert2000TodoItemsUseCase
 import com.example.minitodo.domain.TodoItemUseCase
 import com.example.minitodo.domain.TodoItem
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -49,6 +50,7 @@ class TodoScreenViewModel(
     }
 
     fun loadMoreItems() {
+        Log.d(TAG, "try loadMoreItems")
         if (!_hasMoreItems.value) return
         Log.d(TAG, "loadMoreItems")
         viewModelScope.launch {

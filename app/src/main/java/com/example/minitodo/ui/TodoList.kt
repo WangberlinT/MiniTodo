@@ -2,14 +2,18 @@ package com.example.minitodo.ui
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.toMutableStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,10 +33,7 @@ fun PreviewTodoList() {
         TodoList(
             items = items,
             hasMoreData = true,
-            onReachTheBottom = {
-                items.addAll(
-                    (1+items.size..20 + items.size).map { TodoItem(UUID.randomUUID().mostSignificantBits.toInt(), "Item $it", LocalDateTime.now()) }
-                )
+            onLoadMore = {
             },
             onDeleteItem = {
                 Log.d(TAG, "on delete: $it")
@@ -47,10 +48,21 @@ fun PreviewTodoList() {
 fun TodoList(
     items: List<TodoItem>,
     hasMoreData: Boolean,
-    onReachTheBottom: () -> Unit = {},
+    onLoadMore: () -> Unit = {},
     onDeleteItem: (TodoItem) -> Unit = {}
 ) {
+
+    val lazyListState = rememberLazyListState()
+
+    // Track when to load more items based on scrolling
+    LaunchedEffect(lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index) {
+        val index = lazyListState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: return@LaunchedEffect
+        if (index >= items.size / 2) {
+            onLoadMore()
+        }
+    }
     LazyColumn(
+        state = lazyListState,
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
@@ -65,12 +77,16 @@ fun TodoList(
         }
         item {
             // the user has scrolled to the bottom of the list
-            if (hasMoreData) {
-                CircularProgressIndicator()
-            }
-            LaunchedEffect(true) {
-                onReachTheBottom()
-            }
+                if (hasMoreData) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .animateItem(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
         }
     }
 }
