@@ -8,7 +8,7 @@ import com.example.minitodo.domain.Insert2000TodoItemsUseCase
 import com.example.minitodo.domain.TodoItemUseCase
 import com.example.minitodo.domain.TodoItemMapper
 import com.example.minitodo.domain.TodoItemsRepository
-import com.example.minitodo.ui.TodoScreenViewModelFactory
+import com.example.minitodo.presentation.TodoScreenViewModelFactory
 import kotlinx.coroutines.Dispatchers
 
 /**
@@ -47,10 +47,10 @@ object Injector {
     private fun provideTodoItemMapper(): TodoItemMapper = TodoItemMapper()
 
     private fun provideTodoItemRepository(): TodoItemsRepository =
-        TodoItemRepositoryImpl(Dispatchers.IO, todoDatabaseHelper)
+        TodoItemRepositoryImpl(Dispatchers.IO, provideTodoDatabaseHelper())
 
     /**
      * Singleton
      */
-    fun provideTodoDatabaseHelper(): TodoDatabaseHelper = todoDatabaseHelper
+    private fun provideTodoDatabaseHelper(): TodoDatabaseHelper = todoDatabaseHelper
 }

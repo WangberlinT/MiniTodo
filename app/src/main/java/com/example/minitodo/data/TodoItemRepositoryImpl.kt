@@ -18,6 +18,10 @@ class TodoItemRepositoryImpl(
         todoDatabaseHelper.loadTodoItems(limit, offset)
     }
 
+    override suspend fun getTotalCount(): Int = withContext(workDispatcher) {
+        todoDatabaseHelper.getTotalCount()
+    }
+
     override suspend fun deleteTodoItemById(id: Int): Boolean = withContext(workDispatcher) {
         todoDatabaseHelper.deleteItem(id) != 0
     }

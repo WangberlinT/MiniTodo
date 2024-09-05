@@ -5,6 +5,7 @@ import com.example.minitodo.data.TodoItemInfo
 
 interface TodoItemsRepository {
     suspend fun loadTodoItems(limit: Int, offset: Int): List<TodoItemDto>
+    suspend fun getTotalCount(): Int
     suspend fun deleteTodoItemById(id: Int): Boolean
     suspend fun insertTodoItem(item: TodoItemInfo)
     suspend fun insertTodoItems(items: List<TodoItemInfo>)

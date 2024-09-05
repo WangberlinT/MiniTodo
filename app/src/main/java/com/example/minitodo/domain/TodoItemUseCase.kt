@@ -4,11 +4,14 @@ import com.example.minitodo.data.TodoItemDto
 import com.example.minitodo.data.TodoItemInfo
 import java.time.LocalDateTime
 
-// todo add exception handling
 class TodoItemUseCase(
     private val repository: TodoItemsRepository,
     private val mapper: TodoItemMapper
 ) {
+    suspend fun getTotalCount() : Int {
+        return repository.getTotalCount()
+    }
+
     suspend fun load(limit: Int = 20, offset: Int): LoadedResult {
         val items = repository.loadTodoItems(limit, offset).map { mapper.mapTodoItemDtoToTodoItem(it) }
         return LoadedResult(

@@ -86,4 +86,12 @@ class DatabaseTest {
         assertTrue(updatedItems == itemsInDb)
 
     }
+
+    @Test
+    fun insert100ItemsAllInOnce() {
+        val items = (1..100).map { TodoItemInfo("Item $it", LocalDateTime.now()) }
+        mTodoDatabase.insertItems(items)
+        val count = mTodoDatabase.getTotalCount()
+        assertTrue(count == 100)
+    }
 }

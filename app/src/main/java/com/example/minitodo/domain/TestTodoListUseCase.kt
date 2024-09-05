@@ -6,12 +6,12 @@ import java.time.LocalDateTime
 class Insert2000TodoItemsUseCase(
     private val repository: TodoItemsRepository
 ) {
-    // randomly generate 2000 items
+    // generate 2000 items
     suspend fun insertTodoItems() {
         val start = LocalDateTime.now().minusYears(1)
-        (1..2000).forEach {
-            val info = TodoItemInfo("Test Task $it", start.plusDays(it.toLong()))
-            repository.insertTodoItem(info)
+        val items = (1..2000).map {
+            TodoItemInfo("Test Task $it", start.plusDays(it.toLong()))
         }
+        repository.insertTodoItems(items)
     }
 }

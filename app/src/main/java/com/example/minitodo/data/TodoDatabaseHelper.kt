@@ -103,6 +103,20 @@ class TodoDatabaseHelper(context: Context) : SQLiteOpenHelper(context, "TodoData
         }
     }
 
+    fun getTotalCount() : Int{
+        val db = readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT COUNT(*) FROM $TABLE_NAME",
+            null
+        )
+        var count = 0
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0)
+        }
+        cursor.close()
+        return count
+    }
+
     fun deleteItem(id: Int) : Int {
         val db = writableDatabase
         return db.delete(TABLE_NAME, "$COLUMN_ID = ?", arrayOf(id.toString()))
